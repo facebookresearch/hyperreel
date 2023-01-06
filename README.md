@@ -1,6 +1,6 @@
 # HyperReel
 
-## [Website](https://hyperreel.github.io/) |  [Paper](https://arxiv.org/abs/2112.01523) | [Video]()
+## [Website](https://hyperreel.github.io/) |  [Paper](https://arxiv.org/abs/2301.02238) | [Video]()
 
 ![pipeline](images/pipeline.png)
 
