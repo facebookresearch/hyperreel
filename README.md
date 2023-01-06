@@ -4,7 +4,7 @@
 
 ![pipeline](images/pipeline.png)
 
-The code of HyperReel is available under the MIT license, as it draws from the following projects, which are also licensed under the MIT license: [nerf_pl](https://github.com/kwea123/nerf_pl), [TensoRF](https://github.com/apchenstu/TensoRF), and [torch-ngp](https://github.com/ashawkey/torch-ngp) codebase. Licenses for all of these projects can be found in the `licenses/` folder.
+The code of HyperReel is available under the MIT license, as it draws from the following projects, which are also licensed under the MIT license: [nerf_pl](https://github.com/kwea123/nerf_pl), [TensoRF](https://github.com/apchenstu/TensoRF), and [torch-ngp](https://github.com/ashawkey/torch-ngp). Licenses for all of these projects can be found in the `licenses/` folder.
 
 
 ## Table of contents
