@@ -1,0 +1,36 @@
+# @package _group_
+
+type: geometry_tv
+ray_chunk: 32768
+batch_size: 32768
+use_inp_freq: 0
+wait_epochs: 0
+
+z_channels: 12
+
+weight:
+  type: exponential_decay
+  start: 1.0
+  decay: 1.0
+  num_epochs: 500
+
+color_loss:
+  type: mae
+  weight: 10000.0
+  wait_epochs: 0
+
+geometry_loss:
+  type: mae
+  weight: 0.0
+  wait_epochs: 0
+
+range:
+  pos: 1.0
+  dir: 1.0
+
+jitter:
+  pos: 0.1
+  dir: 0.1
+  bundle_size: 1
+
+

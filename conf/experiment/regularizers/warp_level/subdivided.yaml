@@ -1,0 +1,47 @@
+# @package _group_
+
+type: warp_level
+ray_chunk: 32768
+batch_size: 4096
+use_inp_freq: inf
+wait_iters: 10000
+
+weight:
+  type: exponential_decay
+  start: 0.1
+  decay: 1.0
+  num_epochs: 500
+
+dataset:
+  name: random_lightfield
+  st_plane: -1.0
+  uv_plane: 0.0
+  st_scale:
+
+color_loss:
+  type: mae
+  weight: 0.25
+  wait_iters: 0
+
+svd_loss:
+  type: mae
+  weight: 0.0
+  wait_iters: 0
+
+level_loss:
+  type: mae
+  weight: 0.25
+  wait_iters: 0
+
+range:
+  pos: 1.0
+  dir: 1.0
+
+jitter:
+  pos: 0.1
+  dir: 0.1
+  bundle_size: 1
+
+param:
+  n_dims: 4
+  fn: two_plane

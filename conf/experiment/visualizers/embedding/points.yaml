@@ -1,0 +1,14 @@
+# @package _group_
+
+type: embedding
+
+run_on_test: False
+save_data: False
+
+no_over_fields: []
+
+fields:
+  points:
+    use_abs: False
+    bounds: [-2.0, 2.0]
+

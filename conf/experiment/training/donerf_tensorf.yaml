@@ -1,0 +1,104 @@
+# @package _group_
+
+batch_size: 16384
+ray_chunk: 16384
+net_chunk: 16384
+render_ray_chunk: 16384
+
+update_data_every: 1
+reload_data_every: 100
+
+log_every: 1
+val_every: 10
+render_every: 50
+ckpt_every: 20
+test_every: 50
+flush_logs: 1000
+
+num_workers: 16
+num_gpus: 1
+
+multiscale: False
+scales: [2, 1]
+scale_epochs: [0, 50]
+scale_batch_sizes: [4096, 32768]
+
+weight_init:
+  type: none
+
+loss:
+  type: mse
+
+# TensoRF
+sample_with_replacement: True
+num_iters: 4000
+num_epochs: 80
+
+optimizers:
+  color:
+    optimizer: adam
+    lr: 0.025
+    clip: False
+    clip_amount: 1.0
+    momentum: 0.9
+    weight_decay: 0
+
+    lr_scheduler: exp
+    warmup_multiplier: 1.0
+    warmup_epochs: 0
+
+    decay_epoch: 100
+    decay_gamma: 0.125
+
+    reset_opt_list: [4000, 6000, 8000, 10000, 12000]
+
+  color_impl:
+    optimizer: adam
+    lr: 0.001
+    clip: False
+    clip_amount: 1.0
+    momentum: 0.9
+    weight_decay: 0
+
+    lr_scheduler: exp
+    warmup_multiplier: 1.0
+    warmup_epochs: 0
+
+    decay_epoch: 100
+    decay_gamma: 0.125
+
+    reset_opt_list: [4000, 6000, 8000, 10000, 12000]
+
+  embedding:
+    optimizer: adam
+    lr: 0.01
+    clip: False
+    clip_amount: 1.0
+    momentum: 0.9
+    weight_decay: 0
+
+    lr_scheduler: exp
+    warmup_multiplier: 1.0
+    warmup_epochs: 0
+
+    decay_epoch: 50
+    decay_gamma: 0.125
+
+    reset_opt_list: [4000, 6000, 8000, 10000, 12000]
+
+  embedding_impl:
+    optimizer: adam
+    lr: 0.00075
+    clip: False
+    clip_amount: 1.0
+    momentum: 0.9
+    weight_decay: 0
+
+    lr_scheduler: exp
+    warmup_multiplier: 1.0
+    warmup_epochs: 0
+
+    decay_epoch: 50
+    decay_gamma: 0.125
+
+    reset_opt_list: [4000, 6000, 8000, 10000, 12000]

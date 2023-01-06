@@ -1,0 +1,49 @@
+# @package _group_
+
+type: ray_bundle
+ray_chunk: 131072
+net_chunk: 131072
+batch_size: 8192
+use_inp_freq: inf
+
+wait_epochs: 0
+
+weight:
+  type: exponential_decay
+  start: 10.0
+  decay: 0.1
+  stop_weight: 0.01
+  num_epochs: 100
+
+dataset:
+  name: random_lightfield
+  st_plane: -1.0
+  uv_plane: 0.0
+  num_views: all
+
+color_weight_map:
+  angle_std: 5.0
+  dist_std: 0.1
+
+color_loss:
+  type: mse
+  wait_iters: inf
+  weight: 0.0
+
+embed_weight_map:
+  angle_std: 20.0
+  dist_std: 0.25
+
+embed_loss:
+  type: mse
+  wait_iters: 0
+  weight: 1.0
+
+range:
+  pos: 1.5
+  dir: 1.0
+
+jitter:
+  pos: 0.1
+  dir: 0.1
+  bundle_size: 4

@@ -1,0 +1,19 @@
+# @package _group_
+
+name: eikonal
+collection: Pen
+data_subdir: eikonal
+root_dir: "${experiment.params.data_dir}/${experiment.dataset.data_subdir}/${experiment.dataset.collection}/"
+
+img_wh: [672, 504]
+spherical_poses: False
+use_ndc: False
+
+num_views: -1
+val_num: 1000
+val_skip: 10
+
+render_params:
+  interpolate: False
+  supersample: 4
+  crop: 1.0

@@ -1,0 +1,16 @@
+# @package _group_
+
+type: point
+ray_chunk: 32768
+batch_size: 8192
+
+weight:
+  type: exponential_decay
+  start: 0.2
+  decay: 0.1
+  num_epochs: 100
+
+loss:
+  type: mae
+  weight: 1.0
+  wait_iters: 0

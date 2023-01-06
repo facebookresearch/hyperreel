@@ -1,0 +1,21 @@
+# @package _group_
+
+name: shiny
+collection: cd
+data_subdir: shiny
+root_dir: "${experiment.params.data_dir}/${experiment.dataset.data_subdir}/${experiment.dataset.collection}/"
+
+img_wh: [1008, 567]
+spherical_poses: False
+use_ndc: True
+
+val_num: 8
+#val_skip: 8
+val_skip: 2
+val_all: False
+
+render_params:
+  interpolate: False
+  supersample: 4
+  max_frames: 400
+  crop: 0.8

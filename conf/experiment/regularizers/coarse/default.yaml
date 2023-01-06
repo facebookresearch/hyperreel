@@ -1,0 +1,16 @@
+# @package _group_
+
+type: coarse
+batch_size: 8192
+
+weight:
+  type: exponential_decay
+  start: 1.0
+  decay: 0.1
+  stop_weight: 0.01
+
+  stop_epochs: 100
+  num_epochs: 50
+
+loss:
+  type: mse

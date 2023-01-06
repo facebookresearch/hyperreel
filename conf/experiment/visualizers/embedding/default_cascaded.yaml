@@ -1,0 +1,22 @@
+# @package _group_
+
+type: embedding
+
+run_on_test: False
+save_data: False
+
+no_over_fields: [raw_distance]
+
+fields:
+  distances:
+    use_abs: False
+    normalize: True
+
+  raw_distance:
+    use_abs: False
+    normalize: True
+    sort: True
+
+  point_offset:
+    use_abs: True
+    bounds: [0.0, 0.25]

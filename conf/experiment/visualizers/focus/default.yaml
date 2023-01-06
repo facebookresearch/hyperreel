@@ -1,0 +1,16 @@
+# @package _group_
+
+type: focus
+
+s:
+t:
+
+ds: 200.0
+dt: 200.0
+
+st_scale:
+uv_scale:
+
+near: -1.0
+far: 0.0
+focal: 0.0

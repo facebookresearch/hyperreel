@@ -1,0 +1,40 @@
+# @package _group_
+
+name: stanford
+collection: gem
+data_subdir: stanford
+root_dir: "${experiment.params.data_dir}/${experiment.dataset.data_subdir}/${experiment.dataset.collection}/"
+
+img_wh:
+downsample: 1
+spherical_poses: False
+use_ndc: False
+
+val_pairs: []
+val_num: 8
+val_skip: 1
+val_all: False
+
+render_params:
+  interpolate: False
+  supersample: 4
+  crop: 1.0
+
+lightfield:
+  rows: 17
+  cols: 17
+
+  start_row: 0
+  end_row: 17
+
+  keyframe_step: -1
+  #keyframe_subsample: 1
+  keyframe_subsample: 1
+
+  step: 4
+  supersample: 2
+  disp_row: 8
+
+  use_file_coords: True
+  st_scale: 0.125
+  vis_st_scale:

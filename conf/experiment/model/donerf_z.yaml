@@ -1,0 +1,115 @@
+# @package _group_
+
+type: lightfield
+
+render:
+  type: lightfield
+
+param:
+  n_dims: 6
+  fn: identity
+
+embedding:
+  type: epipolar
+
+  # Parameterization
+  param:
+    n_dims: 6
+    fn: pluecker
+    direction_multiplier: 1.0
+    moment_multiplier: 1.0
+
+  net:
+    pe:
+      type: windowed
+      n_freqs: 1
+      wait_iters: 0
+      max_freq_epoch: 0
+      exclude_identity: False
+
+    type: base
+    group: embedding_impl
+
+    depth: 6
+    hidden_channels: 256
+    skips: [3]
+
+  # Intersection
+  z_channels: 96
+  preds_per_z: 1
+
+  intersect:
+    type: z_plane
+    out_channels_per_z: 3
+    extra_outputs: ['distance']
+
+    stratified: True
+    sort: True
+    use_disparity: False
+
+    initial: -1.0
+    end: 1.0
+
+    add_random: False
+    random_per_sample: 1
+
+    add_point_offset: True
+
+    add_flow: False
+    flow_keyframes: 1
+    flow_scale: 1.0
+
+    z_activation:
+      type: identity
+      fac: 0.5
+    point_activation:
+      type: tanh
+      fac: 0.25
+    flow_activation:
+      type: identity
+      fac: 0.25
+    sigma_activation:
+      type: sigmoid
+      fac: 1.0
+
+    sigma_shift: 5.0
+
+  # Transform
+  extra_out_channels: 3
+
+color:
+  type: base
+
+  net:
+    type: tensor_vm_split_no_sample
+
+    white_bg: 0
+    ndc_ray: 0
+    nSamples: 96
+    step_ratio: 0.5
+
+    fea2denseAct: relu
+    distance_scale: 4.0
+    density_shift: 0.0
+
+    aabb: [[-2.0, -2.0, -2.0], [2.0, 2.0, 2.0]]
+
+    N_voxel_init: 64000000 # 400**3
+    N_voxel_final: 512000000 # 800**3
+    upsamp_list: [2000,3000,4000,5500,7000]
+    update_AlphaMask_list: []
+
+    rm_weight_mask_thre: 1e-4
+    alpha_mask_thre: 1e-4
+
+    n_lamb_sigma: [8,8,8]
+    n_lamb_sh: [8,8,8]
+
+    shadingMode: SH
+    data_dim_color: 27
+
+    view_pe: 2
+    fea_pe: 2
+    featureC: 128
+
+    lr_upsample_reset: True

@@ -1,0 +1,30 @@
+# @package _group_
+
+type: embedding
+
+run_on_test: False
+save_data: False
+
+no_over_fields: []
+
+fields:
+  distances:
+    use_abs: False
+    normalize: True
+
+  raw_distance:
+    use_abs: False
+    normalize: True
+
+  raw_flow:
+    use_abs: True
+    normalize: True
+
+  point_offset:
+    use_abs: True
+    bounds: [0.0, 0.25]
+
+  spatial_flow:
+    use_abs: True
+    bounds: [0.0, 1.0]
+

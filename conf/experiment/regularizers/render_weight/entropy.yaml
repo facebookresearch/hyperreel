@@ -1,0 +1,15 @@
+# @package _group_
+
+type: render_weight
+ray_chunk: 32768
+batch_size: 8192
+
+num_points: -1
+window_epochs: 5
+
+weight:
+  type: exponential_decay
+  start: 0.001
+  decay: 0.125
+  num_epochs: 20
+

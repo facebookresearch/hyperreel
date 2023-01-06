@@ -1,0 +1,47 @@
+# @package _group_
+
+name: technicolor
+collection: painter
+data_subdir: technicolor
+root_dir: "${experiment.params.data_dir}/${experiment.dataset.data_subdir}/${experiment.dataset.collection}/"
+
+img_wh: [2048, 1088]
+spherical_poses: False
+use_ndc: True
+use_reference: False
+correct_poses: False
+
+# Validation
+val_num: 8
+val_skip: 2
+val_set: 'lightfield'
+
+val_all: False
+val_pairs: [[2, 2]]
+
+lightfield_step: 1
+lightfield_rows: 4
+lightfield_cols: 4
+
+# Video
+start_frame: 0
+num_frames: 50 # 1.3 seconds
+keyframe_step: 4 # every 5 frames
+
+load_full_step: 8 # every 4 frames
+subsample_keyframe_step: 4 # every 2 frames
+subsample_keyframe_frac: 0.25 # load 1/4 of the pixels from each keyframe
+subsample_frac: 0.125 # load 1/20 of the pixels from every other frame
+
+#load_full_step: 4 # every 4 frames
+#subsample_keyframe_step: 2 # every 2 frames
+#subsample_keyframe_frac: 0.25 # load 1/4 of the pixels from each keyframe
+#subsample_frac: 0.25 # load 1/20 of the pixels from every other frame
+
+# Rendering
+render_params:
+  interpolate_time: False
+  interpolate: False
+  supersample: 2
+  crop: 1.0
+

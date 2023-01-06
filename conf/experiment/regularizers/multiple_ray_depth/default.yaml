@@ -1,0 +1,104 @@
+# @package _group_
+
+type: multiple_ray_depth
+ray_chunk: 131072
+net_chunk: 131072
+batch_size: 32768
+
+wait_iters: 1000
+warmup_iters: 10000
+use_inp_freq: 2
+
+use_disparity: False
+occlusion_aware: False
+num_slices: 8
+num_filler: 0
+
+dataset:
+  name: random_view
+  num_views: all
+
+weight:
+  type: exponential_decay
+  start: 0.5
+  decay: 0.1
+  num_epochs: 500
+
+range:
+  pos: 1.0
+  dir: 1.0
+
+jitter:
+  pos: 0.25
+  dir: 0.25
+  bundle_size: 1
+
+lookup_weight_map:
+  angle_std: 10.0
+  dist_std: 0.1
+
+  rgb_std:
+    type: linear_decay
+    num_epochs: 100
+    start: 0.1
+    end: 0.01
+
+color_weight_map:
+  angle_std: 5.0
+  dist_std: 0.05
+
+  rgb_std:
+    type: linear_decay
+    num_epochs: 100
+    start: 0.1
+    end: 0.01
+
+depth_weight_map:
+  angle_std: 10.0
+  dist_std: 0.25
+
+color_lookup_loss:
+  type: mae
+  weight: 0.25
+  wait_iters: 0
+
+color_loss:
+  type: mae
+  weight: 0.5
+  wait_iters: 0
+
+depth_loss:
+  type: mae
+  weight: 0.25
+  wait_iters: 0
+
+param:
+  n_dims: 4
+  fn: two_plane
+
+pe:
+  n_freqs: 8
+  wait_iters: 0
+  max_freq_iter: 50000
+  exclude_identity: False
+
+net:
+  depth: 8
+  hidden_channels: 256
+  skips: [4]
+  activation: identity
+
+optimizer:
+  optimizer: adam
+  lr: 0.001
+  clip: False
+  clip_amount: 1.0
+  momentum: 0.9
+  weight_decay: 0
+
+  lr_scheduler: exp
+  warmup_multiplier: 1.0
+  warmup_epochs: 0
+
+  decay_epoch: 500
+  decay_gamma: 0.1

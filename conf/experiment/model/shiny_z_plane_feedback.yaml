@@ -1,0 +1,224 @@
+# @package _group_
+
+type: lightfield
+
+render:
+  type: lightfield
+
+param:
+  n_dims: 6
+  fn: identity
+
+
+### EMBEDDING ###
+embedding:
+  type: ray_point
+
+  embeddings:
+    ray_prediction_0:
+      type: ray_prediction
+
+      # Parameterization
+      params:
+        ray:
+          start: 0
+          end: 6
+
+          param:
+            n_dims: 4
+            fn: two_plane
+
+          pe:
+            type: windowed
+            freq_multiplier: 2.0
+            n_freqs: 0
+            wait_iters: 0
+            max_freq_epoch: 0
+            exclude_identity: False
+
+      # Net
+      net:
+        type: base
+        group: embedding_impl
+
+        depth: 6
+        hidden_channels: 256
+        skips: [3]
+
+      # Outputs
+      z_channels: 8
+
+      outputs:
+        z_vals:
+          channels: 1
+
+    ray_intersect_0:
+      wait_iters: 0
+      type: ray_intersect
+
+      # Intersect
+      z_channels: 8
+
+      intersect:
+        mask:
+          stop_iters: -1
+
+        type: z_plane
+
+        sort: False
+        outward_facing: False
+        use_disparity: False
+        use_sigma: False
+
+        initial: -1.0
+        end: 1.0
+
+        out_points: raw_points
+        out_distance: raw_distance
+
+        activation:
+          type: identity
+          fac: 0.5
+
+    point_prediction_0:
+      type: point_prediction
+
+      # Inputs
+      in_z_channels: 8
+
+      inputs:
+        points: 3
+        viewdirs: 3
+
+      # Parameterization
+      params:
+        all:
+          start: 0
+          end: 6
+
+          param:
+            n_dims: 6
+            fn: identity
+
+          pe:
+            type: windowed
+            freq_multiplier: 2.0
+            n_freqs: 2
+            wait_iters: 0
+            max_freq_epoch: 0
+            exclude_identity: False
+
+      # Net
+      net:
+        type: base
+        group: embedding_impl
+
+        depth: 6
+        hidden_channels: 256
+        skips: [3]
+
+      # Outputs
+      out_z_channels: 32
+
+      outputs:
+        z_vals:
+          channels: 1
+
+        sigma:
+          channels: 1
+
+          activation:
+            type: sigmoid
+            fac: 1.0
+            shift: 4.0
+
+        point_offset:
+          channels: 3
+
+          activation:
+            type: tanh
+            fac: 0.25
+
+    ray_intersect_1:
+      type: ray_intersect
+
+      # Intersect
+      z_channels: 32
+
+      intersect:
+        type: z_plane
+
+        sort: True
+        outward_facing: False
+        use_disparity: False
+        use_sigma: True
+        max_axis: False
+
+        out_points: raw_points
+        out_distance: raw_distance
+
+        initial: -1.0
+        end: 1.0
+
+        activation:
+          type: identity
+          fac: 0.5
+
+    point_offset_0:
+      type: point_offset
+      use_sigma: True
+
+    add_point_outputs_0:
+      type: add_point_outputs
+      extra_outputs: ['viewdirs']
+
+    extract_fields:
+      type: extract_fields
+      fields: ['points', 'distances', 'viewdirs', 'weights']
+
+
+### COLOR ###
+color:
+  type: base
+
+  net:
+    type: tensor_vm_split_no_sample
+
+    # Scene hyper-params
+    white_bg: 0
+    black_bg: 0
+
+    # Density activation
+    #fea2denseAct: softplus
+    #distance_scale: 25.0
+    #density_shift: -10.0
+
+    fea2denseAct: relu
+    distance_scale: 4.0
+    density_shift: 0.0
+
+    # Grid bounds
+    aabb: [[-2.0, -2.0, -2.0], [2.0, 2.0, 2.0]]
+
+    # Grid size and upsampling
+    grid_size:
+      start: [150, 150, 150]
+      end: [600, 600, 600]
+    upsamp_list: [4000,6000,8000,10000,12000]
+    lr_upsample_reset: True
+
+    # Thresholding
+    update_AlphaMask_list: [4000,8000]
+    rm_weight_mask_thre: 0
+    alpha_mask_thre: 1e-3
+
+    # Tensor sizes
+    n_lamb_sigma: [8,0,0]
+    n_lamb_sh: [8,0,0]
+
+    # Shading
+    #shadingMode: RGB
+    #data_dim_color: 3
+
+    shadingMode: SH
+    data_dim_color: 27

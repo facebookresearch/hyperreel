@@ -1,0 +1,155 @@
+# @package _group_
+
+type: lightfield
+
+render:
+  type: lightfield
+
+param:
+  n_dims: 6
+  fn: identity
+
+
+### EMBEDDING ###
+embedding:
+  type: ray_point
+
+  embeddings:
+    # 1) Per ray outputs
+    emb0:
+      type: ray_prediction
+
+      # Parameterization
+      param:
+        n_dims: 6
+        fn: pluecker
+        direction_multiplier: 1.0
+        moment_multiplier: 1.0
+
+      # Net
+      net:
+        pe:
+          type: windowed
+          n_freqs: 2
+          wait_iters: 0
+          max_freq_epoch: 0
+          exclude_identity: False
+
+        #type: zero
+        type: base
+        group: embedding_impl
+
+        depth: 6
+        hidden_channels: 256
+        skips: [3]
+
+      # Outputs
+      z_channels: 192
+
+      outputs:
+        z_vals: 1
+        sigma: 1
+        point_offset: 3
+
+    # 2) Ray density
+    emb1:
+      type: point_density
+      shift: 2.0
+      activation:
+        type: sigmoid
+        fac: 1.0
+
+    # 3) Intersection
+    emb2:
+      type: ray_intersect
+
+      # Intersect
+      z_channels: 192
+
+      intersect:
+        type: voxel_grid
+
+        sort: True
+        outward_facing: False
+        use_disparity: False
+        use_sigma: True
+
+        origin: [0.0, 0.0, 0.0]
+        initial: [-2.0, -2.0, -2.0]
+        end: [2.0, 2.0, 2.0]
+
+        near: 2.0
+        far: 6.0
+
+        activation:
+          type: identity
+          fac: 0.5
+
+    # 5) Add extra outputs
+    emb3:
+      type: add_point_outputs
+      extra_outputs: ['viewdirs']
+
+    # 7) Ray density
+    emb5:
+      type: point_density
+      shift: 2.0
+      activation:
+        type: sigmoid
+        fac: 1.0
+
+    # 8) Add point offset
+    emb6:
+      type: point_offset
+      use_sigma: True
+      activation:
+        type: identity
+        fac: 0.25
+
+    # 9) Extract
+    emb7:
+      type: extract_fields
+      fields: ['points', 'distances', 'viewdirs']
+
+
+### COLOR ###
+color:
+  type: base
+
+  net:
+    type: tensor_vm_split_no_sample
+
+    # Scene hyper-params
+    white_bg: 1
+    ndc_ray: 0
+
+    # Density activation
+    fea2denseAct: softplus
+    distance_scale: 25.0
+    density_shift: -10.0
+
+    # Grid bounds
+    aabb: [[-2.0, -2.0, -2.0], [2.0, 2.0, 2.0]]
+
+    # Grid size and upsampling
+    N_voxel_init: 1000000 # 100**3
+    N_voxel_final: 27000000 # 300**3
+    upsamp_list: [4000,6000,8000,10000,12000]
+    lr_upsample_reset: True
+
+    # Thresholding
+    update_AlphaMask_list: [4000,8000]
+    rm_weight_mask_thre: 1e-4
+    alpha_mask_thre: 1e-4
+
+    # Tensor sizes
+    n_lamb_sigma: [8,8,8]
+    n_lamb_sh: [8,8,8]
+    num_frames: 8
+
+    # Shading
+    #shadingMode: RGB
+    #data_dim_color: 3
+
+    shadingMode: SH
+    data_dim_color: 27

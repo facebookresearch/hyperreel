@@ -1,0 +1,267 @@
+# @package _group_
+
+type: lightfield
+
+render:
+  type: lightfield
+
+param:
+  n_dims: 6
+  fn: identity
+
+
+### EMBEDDING ###
+embedding:
+  type: ray_point
+
+  embeddings:
+    ray_prediction_0:
+      type: ray_prediction
+
+      # Parameterization
+      params:
+        ray:
+          start: 0
+          end: 6
+
+          param:
+            n_dims: 6
+            fn: pluecker
+            direction_multiplier: 1.0
+            moment_multiplier: 1.0
+
+          pe:
+            type: windowed
+            freq_multiplier: 2.0
+            n_freqs: 1
+            wait_iters: 0
+            max_freq_epoch: 0
+            exclude_identity: False
+
+        time:
+          start: 7
+          end: 8
+
+          param:
+            n_dims: 1
+            fn: identity
+
+          pe:
+            type: windowed
+            n_freqs: 2
+            wait_iters: 0
+            max_freq_epoch: 0
+            exclude_identity: False
+
+      # Net
+      net:
+        type: base
+        group: embedding_impl
+
+        depth: 6
+        hidden_channels: 256
+        skips: [3]
+
+      # Outputs
+      z_channels: 32 # NOTE: Changed from 32
+
+      outputs:
+        z_vals:
+          channels: 4 # NOTE: Changed from 4
+
+        spatial_flow:
+          channels: 3
+
+          activation:
+            type: identity
+            #outer_fac: 8.0
+            #outer_fac: 4.0
+            outer_fac: 1.0
+
+        sigma:
+          channels: 1
+
+          activation:
+            type: ease_value
+            start_value: 1.0
+            window_epochs: 3
+            wait_epochs: 0
+
+            activation:
+              type: sigmoid
+              shift: 4.0
+
+        point_sigma:
+          channels: 1
+
+          activation:
+            type: ease_value
+            start_value: 1.0
+            window_epochs: 3
+            wait_epochs: 1
+
+            activation:
+              type: sigmoid
+              shift: 4.0
+
+        point_offset:
+          channels: 3
+
+          activation:
+            type: tanh
+            outer_fac: 0.25
+
+        color_scale:
+          channels: 3
+
+          activation:
+            type: ease_value
+            start_value: 0.0
+            window_epochs: 0
+            wait_epochs: 0
+
+            activation:
+              type: identity
+              shift: 0.0
+              inner_fac: 1.0
+              outer_fac: 1.0
+
+        color_shift:
+          channels: 3
+
+          activation:
+            type: ease_value
+            start_value: 0.0
+            window_epochs: 0
+            wait_epochs: 0
+
+            activation:
+              type: identity
+              shift: 0.0
+              inner_fac: 1.0
+              outer_fac: 1.0
+
+    ray_intersect_0:
+      type: ray_intersect
+
+      # Intersect
+      #z_channels: 64 # NOTE: Changed from 32
+      z_channels: 32 # NOTE: Changed from 32
+
+      intersect:
+        #type: cylinder # NOTE: Changed from cylinder
+        type: sphere # NOTE: Changed from cylinder
+
+        sort: True
+        outward_facing: True
+        use_disparity: False
+        max_axis: False
+
+        use_sigma: True
+
+        out_points: raw_points
+        out_distance: raw_distance
+
+        #near: 0.5 # NOTE: Changed from 0.5
+        #initial: 0.75 # NOTE: Changed from 0.75
+        #end: 64.0
+        #origin_scale_factor: 0.0
+
+        use_dataset_bounds: True
+        origin_scale_factor: 0.0
+
+        contract:
+          type: mipnerf
+          contract_samples: True
+          #contract_start_radius: 1.75 # NOTE: Changed from 1.75
+          #contract_end_radius: 64.0
+          use_dataset_bounds: True
+
+        activation:
+          type: identity
+          fac: 0.5
+
+    flow_0:
+      type: advect_points
+      use_spatial_flow: True
+      use_angular_flow: False
+
+      out_flow_field: raw_flow
+      flow_scale: 0.0
+
+      spatial_flow_activation:
+        type: identity
+        fac: 0.25
+
+      angular_flow_rotation_activation:
+        type: identity
+        fac: 0.25
+
+      angular_flow_anchor_activation:
+        type: identity
+        fac: 0.25
+
+    point_offset_0:
+      type: point_offset
+      in_density_field: point_sigma
+      use_sigma: True
+
+    add_point_outputs_0:
+      type: add_point_outputs
+      extra_outputs: ['viewdirs', 'times']
+
+    extract_fields:
+      type: extract_fields
+      fields: [
+        'points', 'distances', 'base_times', 'time_offset', 'times', 'viewdirs', 'weights',
+        'color_transform_global', 'color_scale_global', 'color_shift_global',
+        'color_transform', 'color_scale', 'color_shift'
+      ]
+
+
+### COLOR ###
+color:
+  type: base
+
+  net:
+    type: tensor_vm_split_time
+
+    # Scene hyper-params
+    white_bg: 0
+    black_bg: 0
+
+    # Density activation
+    fea2denseAct: relu
+    distance_scale: 16.0
+    #distance_scale: 8.0
+    density_shift: 0.0
+
+    # Grid bounds
+    aabb: [[-2.0, -2.0, -2.0], [2.0, 2.0, 2.0]]
+
+    # Grid size and upsampling
+    N_voxel_init: 2097152
+    N_voxel_final: 262144000
+
+    upsamp_list: [4000,6000,8000,10000,12000]
+
+    lr_upsample_reset: True
+
+    # Thresholding
+    update_AlphaMask_list: [4000,8000]
+    rm_weight_mask_thre: 0
+    alpha_mask_thre: 1e-3
+
+    # Tensor sizes
+    n_lamb_sigma: [8,4,4]
+    n_lamb_sh: [8,4,4]
+
+    # Shading
+    shadingMode: SH
+    data_dim_color: 27
+    #shadingMode: RGB
+    #data_dim_color: 3
+
+    # Density
+    densityMode: Density
+

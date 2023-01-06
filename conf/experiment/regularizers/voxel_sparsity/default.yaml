@@ -1,0 +1,15 @@
+# @package _group_
+
+type: voxel_sparsity
+ray_chunk: 32768
+batch_size: 32768
+use_inp_freq: inf
+
+weight:
+  type: exponential_decay
+  start: 0.01
+  decay: 0.5
+  num_epochs: 500
+
+loss:
+  type: mse

@@ -1,0 +1,42 @@
+# @package _group_
+
+name: neural_3d
+collection: coffee_martini
+data_subdir: neural_3d
+root_dir: "${experiment.params.data_dir}/${experiment.dataset.data_subdir}/${experiment.dataset.collection}/"
+
+#img_wh: [2704, 2028]
+img_wh: [1352, 1014]
+spherical_poses: False
+use_ndc: True
+use_reference: False
+correct_poses: False
+
+# Validation
+val_num: 8
+val_skip: 2
+
+val_all: False
+val_set: [0]
+
+# Video
+start_frame: 0
+num_frames: 50
+keyframe_step: 4
+
+#load_full_step: 4
+#subsample_keyframe_step: 2
+#subsample_keyframe_frac: 0.25
+#subsample_frac: 0.125
+
+load_full_step: 4
+subsample_keyframe_step: 2
+subsample_keyframe_frac: 0.25
+subsample_frac: 0.125
+
+# Rendering
+render_params:
+  interpolate_time: False
+  interpolate: False
+  supersample: 2
+  crop: 0.85

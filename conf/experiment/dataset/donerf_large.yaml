@@ -1,0 +1,21 @@
+# @package _group_
+
+name: donerf
+collection: barbershop
+data_subdir: donerf
+root_dir: "${experiment.params.data_dir}/${experiment.dataset.data_subdir}/${experiment.dataset.collection}/"
+
+img_wh: [800, 800]
+spherical_poses: True
+use_ndc: False
+correct_poses: True
+center_poses: True
+
+val_num: 8
+val_skip: 1
+val_all: False
+
+render_params:
+  interpolate: False
+  supersample: 4
+  crop: 1.0

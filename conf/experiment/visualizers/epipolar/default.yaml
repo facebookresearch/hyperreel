@@ -1,0 +1,12 @@
+# @package _group_
+
+type: epipolar
+t:
+v:
+H:
+
+st_scale:
+uv_scale:
+
+near:
+far:

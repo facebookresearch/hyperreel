@@ -1,0 +1,32 @@
+# @package _group_
+
+type: blurry_teacher
+batch_size: 4096
+
+dataset:
+  name: "dense_${experiment.dataset.name}"
+  collection: "${experiment.dataset.collection}_dense_blurry"
+  split: train
+  root_dir: "${experiment.params.data_dir}/${experiment.dataset.data_subdir}/${experiment.dataset.collection}_dense_blurry/"
+
+  num_rows: 10
+  num_cols: 10
+  train_row_skip: 1
+  train_col_skip: 1
+  size: 1000
+
+  use_patches: True
+  blur_radius: 0
+  patch_width: 64
+
+blur_radius: 0
+
+weight:
+  type: exponential_decay
+  start: 0.5
+  decay: 0.1
+  stop_weight: 0.025
+  num_epochs: 250
+
+loss:
+  type: mse

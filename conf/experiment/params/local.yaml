@@ -1,0 +1,27 @@
+# @package _group_
+
+tensor: True
+
+ckpt_dir: ~/checkpoints
+log_dir: ~/logs
+data_dir: ~/data
+name: "${experiment.dataset.name}_${experiment.dataset.collection}"
+
+print_loss: False
+save_results: True
+
+tensorboard: False
+log_images: False
+log_videos: False
+
+show_embedding: False
+
+test_only: False
+render_only: False
+load_from_weights: False
+start_epoch: 0
+
+seed: 1
+
+save_video_dir: "val_videos"
+save_image_dir: "val_images"

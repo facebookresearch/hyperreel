@@ -1,0 +1,21 @@
+# @package _group_
+
+name: catacaustics
+collection: compost
+data_subdir: catacaustics
+root_dir: "${experiment.params.data_dir}/${experiment.dataset.data_subdir}/${experiment.dataset.collection}/"
+
+img_wh: [1000, 666]
+spherical_poses: False
+use_ndc: False
+correct_poses: True
+
+val_num: 8
+val_skip: -1
+val_all: False
+
+render_params:
+  interpolate: False
+  supersample: 4
+  crop: 1.0
+

@@ -1,0 +1,24 @@
+# @package _group_
+
+type: teacher_model
+ray_chunk: 32768
+batch_size: 16384
+
+weight:
+  type: exponential_decay
+  start: 1.0
+  decay: 0.25
+  num_epochs: 50
+
+model_ckpt_path: shiny_lab_temp/last.ckpt
+model_start_epoch: 100
+
+origin_range: [[-2.0, -2.0, -1.0], [2.0, 2.0, -1.0]]
+#origin_range: [[-1.0, -1.0, -1.0], [1.0, 1.0, -1.0]]
+direction_range: [[-0.5, -0.5, 2.0], [0.5, 0.5, 2.0]]
+
+use_ndc: True
+convert_ndc: False
+
+defaults:
+  - model: ../../../model/shiny_z_plane

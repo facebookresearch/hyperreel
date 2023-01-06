@@ -1,0 +1,50 @@
+# @package _group_
+
+name: stanford
+collection: tarot
+data_subdir: stanford_half
+root_dir: "${experiment.params.data_dir}/${experiment.dataset.data_subdir}/${experiment.dataset.collection}/"
+
+img_wh: [512, 512]
+spherical_poses: False
+use_ndc: False
+
+val_pairs: []
+val_num: 8
+val_skip: 1
+val_all: False
+
+#render_params:
+#  interpolate: False
+#  supersample: 4
+#  crop: 1.0
+
+render_params:
+  spiral: True
+  far: False
+  interpolate: False
+  supersample: 4
+  crop: 1.0
+
+  spiral_rad: 0.5
+  uv_downscale: 0.0
+
+lightfield:
+  rows: 17
+  cols: 17
+
+  start_row: 0
+  end_row: 17
+
+  keyframe_step: -1
+  #keyframe_subsample: 1
+  keyframe_subsample: 1
+
+  step: 4
+  supersample: 2
+  disp_row: 8
+
+  use_file_coords: True
+  st_scale: 0.5
+  uv_scale: 1.0
+  vis_st_scale:

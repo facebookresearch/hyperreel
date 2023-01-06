@@ -1,0 +1,27 @@
+# @package _group_
+
+type: fourier
+ray_chunk: 131072
+net_chunk: 131072
+batch_size: 1
+use_inp_freq: inf
+wait_iters: 0
+
+weight:
+  type: exponential_decay
+  start: 1.92
+  decay: 0.1
+  num_epochs: 500
+
+dataset:
+  name: fourier_lightfield
+  num_views: all
+
+fourier_loss:
+  type: mse
+  weight: 1
+  wait_iters: 0
+
+range:
+  pos: 1.0
+  dir: 1.0

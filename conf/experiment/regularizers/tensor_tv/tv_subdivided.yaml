@@ -1,0 +1,19 @@
+# @package _group_
+
+type: tensor_tv
+ray_chunk: 32768
+batch_size: 8192
+
+weight:
+  type: exponential_decay
+  start: 0.05
+  decay: 0.25
+  num_epochs: 100
+
+use_tv: True
+opacity_weight: 1.0
+color_weight: 0.1
+
+
+skip_row: -1
+skip_col: -1

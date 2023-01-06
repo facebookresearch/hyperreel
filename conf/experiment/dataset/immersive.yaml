@@ -1,0 +1,41 @@
+# @package _group_
+
+name: immersive
+collection: 05_Horse
+data_subdir: immersive
+root_dir: "${experiment.params.data_dir}/${experiment.dataset.data_subdir}/${experiment.dataset.collection}/"
+
+img_wh: [1280, 960]
+spherical_poses: False
+use_ndc: False
+use_reference: False
+correct_poses: True
+
+# Validation
+val_num: 8
+val_skip: 2
+
+val_all: False
+val_set: [0]
+
+# Video
+start_frame: 0
+num_frames: 50
+keyframe_step: 4
+
+#load_full_step: 8
+#subsample_keyframe_step: 4
+#subsample_keyframe_frac: 0.25
+#subsample_frac: 0.125
+
+load_full_step: 8
+subsample_keyframe_step: 4
+subsample_keyframe_frac: 0.25
+subsample_frac: 0.125
+
+# Render
+render_params:
+  interpolate_time: False
+  interpolate: False
+  supersample: 2
+  crop: 1.0

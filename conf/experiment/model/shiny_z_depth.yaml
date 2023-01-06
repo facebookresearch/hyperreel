@@ -1,0 +1,86 @@
+# @package _group_
+
+type: lightfield
+
+render:
+  type: lightfield
+
+param:
+  n_dims: 6
+  fn: identity
+
+embedding:
+  type: epipolar
+
+  # Parameterization
+  param:
+    n_dims: 4
+    fn: two_plane
+
+  # MLP
+  net:
+    # PE
+    pe_channels: 4
+
+    pe:
+      type: windowed
+      freq_multiplier: 2.0
+      n_freqs: 2
+      wait_epochs: 0
+      max_freq_epoch: 4
+      exclude_identity: False
+
+    type: base
+    depth: 6
+    hidden_channels: 256
+    skips: [3]
+
+    layer_activation:
+      type: leaky_relu
+      sigma: 0.25
+
+  # Z outputs
+  z_channels: 1
+  preds_per_z: 1
+  z_activation: identity
+
+  intersect:
+    type: z_plane
+    forward_facing: True
+    stratified: False
+    sort: False
+    out_channels_per_z: 3
+
+  # Transform
+  tform_in_channels: 0
+  tform_out_channels: 3
+  tform_activation:
+    type: row_l2_norm
+    param_channels: 3
+  bias_activation: zero
+  activation: identity
+
+color:
+  type: base
+
+  net:
+    pe:
+      type: windowed
+      freq_multiplier: 2.0
+      n_freqs: 8
+      wait_epochs: 0
+      max_freq_epoch: 16
+      exclude_identity: False
+
+    type: base
+    depth: 6
+    hidden_channels: 384
+    skips: [3]
+
+    layer_activation:
+      type: leaky_relu
+      sigma: 0.25
+
+    activation: sigmoid
+
+

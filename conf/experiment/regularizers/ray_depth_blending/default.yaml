@@ -1,0 +1,79 @@
+# @package _group_
+
+
+type: ray_depth_blending
+ray_chunk: 32768
+batch_size: 4096
+use_inp_freq: 0
+
+use_depth_embedding: False
+use_color_embedding: True
+
+dataset:
+  name: random_view
+  num_views: 8
+
+warmup_iters: 1000
+
+weight:
+  type: exponential_decay
+  start: 1.0
+  decay: 0.5
+  num_epochs: 500
+
+lookup:
+  angle_std: 5.0
+  dist_std: 0.1
+
+color_loss:
+  type: mae
+  weight: 0.5
+
+  angle_std: 5.0
+  dist_std: 0.05
+
+depth_loss:
+  type: mae
+  weight: 0.5
+
+  angle_std: 5.0
+  dist_std: 0.05
+
+range:
+  pos: 1.0
+  dir: 1.0
+
+jitter:
+  pos: 0.1
+  dir: 0.1
+
+param:
+  n_dims: 6
+  fn: pluecker
+
+pe:
+  n_freqs: 10
+  warmup_iters: 0
+  max_freq_iter: 120000
+  exclude_identity: False
+
+net:
+  depth: 8
+  hidden_channels: 256
+  skips: [4]
+  activation: 'identity'
+
+optimizer:
+  optimizer: adam
+  lr: 0.001
+  clip: False
+  clip_amount: 1.0
+  momentum: 0.9
+  weight_decay: 0
+
+  lr_scheduler: exp
+  warmup_multipler: 1.0
+  warmup_epochs: 0
+
+  decay_epoch: 500
+  decay_gamma: 0.5

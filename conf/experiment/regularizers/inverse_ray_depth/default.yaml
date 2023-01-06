@@ -1,0 +1,37 @@
+# @package _group_
+
+type: inverse_ray_depth
+ray_chunk: 32768
+net_chunk: 32768
+batch_size: 4096
+
+wait_iters: 0
+warmup_iters: 0
+use_inp_freq: 2
+
+dataset:
+  name: random_view
+  num_views: all
+
+weight:
+  type: exponential_decay
+  start: 0.5
+  decay: 0.5
+  num_epochs: 500
+
+use_disparity: False
+num_samples: 8
+
+range:
+  pos: 1.0
+  dir: 1.0
+
+lookup_weight_map:
+  angle_std: 5.0
+  dist_std: 0.125
+  rgb_std: 0.125
+
+embedding_lookup_loss:
+  type: mae
+  weight: 1.0
+  wait_iters: 0

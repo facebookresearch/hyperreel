@@ -1,0 +1,18 @@
+# @package _group_
+
+type: teacher
+batch_size: 4096
+
+dataset:
+  name: random_pixel
+
+weight:
+  type: exponential_decay
+  start: 1.0
+  decay: 1.0
+  stop_epochs: 100
+  num_epochs: 100
+
+loss:
+  type: mse
+

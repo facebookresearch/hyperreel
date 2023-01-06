@@ -1,0 +1,23 @@
+# @package _group_
+
+type: tensorf
+ray_chunk: 32768
+batch_size: 8192
+
+weight:
+  type: exponential_decay
+  start: 1.0
+  decay: 1.0
+  num_epochs: 100
+
+update_AlphaMask_list: [8000,16000]
+lr_decay_target_ratio: 0.1
+n_iters: 60000
+
+lr_upsample_reset: True
+
+L1_weight_initial: 8e-5
+L1_weight_rest: 4e-5
+TV_weight_density: 0.05
+TV_weight_app: 0.05
+

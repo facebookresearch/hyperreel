@@ -1,0 +1,18 @@
+# @package _group_
+
+name: llff
+collection: fern
+data_subdir: nerf_llff_data
+root_dir: "${experiment.params.data_dir}/${experiment.dataset.data_subdir}/${experiment.dataset.collection}/"
+
+img_wh: [1008, 756]
+spherical_poses: False
+use_ndc: True
+
+val_num: 1000
+val_skip: 8
+
+render_params:
+  interpolate: False
+  supersample: 4
+  crop: 1.0

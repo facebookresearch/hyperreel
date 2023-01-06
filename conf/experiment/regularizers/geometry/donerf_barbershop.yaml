@@ -1,0 +1,23 @@
+# @package _group_
+
+type: geometry
+ray_chunk: 32768
+batch_size: 8192
+#wait_iters: -16000
+#stop_iters: 16000
+
+fields: ['raw_points', 'raw_distance']
+origin: [2.25, 7.75, 1.5]
+num_points: -1
+
+contract:
+  type: mipnerf
+  contract_samples: True
+  contract_start_radius: 2.0
+  contract_end_radius: 16.0
+
+weight:
+  type: exponential_decay
+  start: 1.0
+  decay: 0.25
+  num_epochs: 50

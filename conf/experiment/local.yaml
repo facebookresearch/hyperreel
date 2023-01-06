@@ -1,0 +1,9 @@
+# @package _group_
+
+defaults:
+  - params: local
+  - dataset: donerf_large
+  - model: donerf_cylinder
+  - training: donerf_tensorf
+  - regularizers: all
+  - visualizers: all
