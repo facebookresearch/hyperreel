@@ -219,9 +219,9 @@ https://user-images.githubusercontent.com/2993881/208320798-445fec87-54f1-4335-b
 
 ```
 @article{attal2023hyperreel,
-  title={HyperReel: High-Fidelity 6-DoF Video with Ray-Conditioned Sampling},
-  author={Attal, Benjamin and Huang, Jia-Bin and Richardt, Christian and Zollhoefer, Michael and Kopf, Johannes and O'Toole, Matthew and Kim, Changil},
-  journal={arXiv preprint arXiv:2301.02238},
-  year={2022}
+  title   = {{HyperReel}: {H}igh-Fidelity {6-DoF} Video with Ray-Conditioned Sampling},
+  author  = {Attal, Benjamin and Huang, Jia-Bin and Richardt, Christian and Zollhoefer, Michael and Kopf, Johannes and O'Toole, Matthew and Kim, Changil},
+  journal = {arXiv preprint arXiv:2301.02238},
+  year    = {2023}
 }
 ```
