@@ -122,6 +122,8 @@ In order to train HyperReel on a 50 frame subset of a scene from the Google Imme
 bash scripts/run_one_immersive.sh <gpu_to_use> <scene> <start_frame>
 ```
 
+To reproduce the quantitative results that we report in our paper, you should train a model for *every* 50 frame subset in a video sequence. So, for a 10 second, 300 frame video, you should train models for `start_frame = 0, 50, ..., 250`. Further, each model should be trained for about 1.5 hours (9 hours total for a 10 second, 300 frame video). 
+
 By default, the above command will hold-out the central camera. To train a model using all available cameras, run
 
 ```
@@ -135,6 +137,8 @@ In order to train HyperReel on a 50 frame subset of a scene from the Neural 3D V
 ```
 bash scripts/run_one_n3d.sh <gpu_to_use> <scene> <start_frame>
 ```
+
+To reproduce the quantitative results that we report in our paper, you should train a model for *every* 50 frame subset in a video sequence. So, for a 10 second, 300 frame video, you should train models for `start_frame = 0, 50, ..., 250`. Further, each model should be trained for about 1.5 hours (9 hours total for a 10 second, 300 frame video). 
 
 By default, the above command will hold-out the central camera. To train a model using all available cameras, run
 
