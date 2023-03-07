@@ -39,7 +39,7 @@ By default, we assume that:
 
 ## Technicolor
 
-Please reach out to the authors of [Dataset and Pipeline for Multi-View Light-Field Video](https://ieeexplore.ieee.org/document/8014955) for access to the Technicolor dataset. We use the following sequences:
+Please reach out to the authors of [Dataset and Pipeline for Multi-View Light-Field Video](https://ieeexplore.ieee.org/document/8014955) for access to the Technicolor dataset. We use the "undistorted" variants of the following sequences:
 
 * Birthday (frames 150-200)
 * Fabien (frames 50-100)
